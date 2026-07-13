@@ -15,7 +15,7 @@ export default function StoreProvider({ children }: { children: React.ReactNode 
     setIsClient(true)
     if (!storeRef.current) {
       storeRef.current = makeStore()
-      const ps = persistStore(storeRef.current) // ✅ Create persistor only on client
+      const ps = persistStore(storeRef.current)
       setPersistor(ps)
     }
   }, [])

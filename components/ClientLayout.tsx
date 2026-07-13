@@ -1,22 +1,16 @@
 "use client";
 
 import StoreProvider from "@/store/StoreProvider";
-import AddToBagAlert from "@/components/AddToBagAlert";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { resetAddToBagAlert } from "@/store/cartSlice";
+import dynamic from "next/dynamic";
 
-function ClientLayoutInner({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const dispatch = useDispatch();
+const AddToBagAlert = dynamic(() => import("./AddToBagAlert"), { ssr: false });
 
-  const showAlert = useSelector(
-    (state: RootState) => state.cart.showAddToBagAlert
-  );
+function ClientLayoutInner({ children }: { children: React.ReactNode }) {
+  const dispatch = useAppDispatch();
+  const showAlert = useAppSelector((state) => state.cart.showAddToBagAlert);
 
   useEffect(() => {
     if (!showAlert) return;
@@ -47,9 +41,7 @@ export default function ClientLayout({
 }) {
   return (
     <StoreProvider>
-      <ClientLayoutInner>
-        {children}
-      </ClientLayoutInner>
+      <ClientLayoutInner>{children}</ClientLayoutInner>
     </StoreProvider>
   );
 }

@@ -1,49 +1,38 @@
 import { useState } from "react";
-import { usePaystackPayment } from "react-paystack";
+import PaystackPop from "@paystack/inline-js";
 import { useRouter } from "next/navigation";
 
-const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "";
 
+interface PaymentPayload {
+  email: string;
+  amount: number;
+  order: unknown;
+  onSuccess: () => void;
+}
 
 export const usePaystackApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const router = useRouter();
 
-  const makePayment = ({
-    email,
-    amount,
-    order,
-    onSuccess,
-  }: {
-    email: string;
-    amount: number;
-    order: any;
-    onSuccess: () => void;
-  }) => {
+  const makePayment = ({ email, amount, onSuccess }: PaymentPayload) => {
+    if (typeof window === "undefined") return;
+
     setLoading(true);
 
-    const config = {
-      reference: new Date().getTime().toString(),
+    const popup = new PaystackPop();
+    popup.newTransaction({
+      key: publicKey,
       email,
       amount: amount * 100,
-      publicKey,
-    };
-
-    const initializePayment = usePaystackPayment(config);
-
-    initializePayment({
+      reference: new Date().getTime().toString(),
       onSuccess: (referenceObj: { reference: string }) => {
-        console.log("Payment successful:", referenceObj);
-        const reference = referenceObj.reference;
-        router.push(`/payment-success?reference=${reference}`);
-
+        router.push(`/payment-success?reference=${referenceObj.reference}`);
         onSuccess();
         setLoading(false);
       },
       onClose: () => {
-        console.log("Payment popup closed");
         setLoading(false);
       },
     });
