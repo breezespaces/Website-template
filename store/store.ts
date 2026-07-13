@@ -2,10 +2,9 @@
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import { persistReducer } from "redux-persist"
-import storage from "redux-persist/lib/storage" // uses localStorage
+import storage from "redux-persist/lib/storage"
 import cartReducer from "./cartSlice"
 
-// Custom storage with fallback
 const createNoopStorage = () => ({
   getItem: () => Promise.resolve(null),
   setItem: () => Promise.resolve(),
@@ -17,8 +16,7 @@ const storageWithFallback = (() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       return storage
     }
-  } catch (error) {
-    console.warn('localStorage not available, falling back to noop storage')
+  } catch {
   }
   return createNoopStorage()
 })()
@@ -34,7 +32,6 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-// ✅ Don't create persistor here
 export const makeStore = () =>
   configureStore({
     reducer: persistedReducer,

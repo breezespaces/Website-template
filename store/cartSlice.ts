@@ -24,17 +24,13 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action: PayloadAction<CartItem>) => {
-            // Check if the item to add is a bag or sandal
             const isBag = action.payload.name.toLowerCase().includes('bag');
             const isSandal = action.payload.name.toLowerCase().includes('sandal');
             
-            // Check if there's already a bag or sandal in the cart
             const hasBag = state.items.some(item => item.name.toLowerCase().includes('bag'));
             const hasSandal = state.items.some(item => item.name.toLowerCase().includes('sandal'));
             
-            // Prevent adding bag if sandal exists and vice versa
             if ((isBag && hasSandal) || (isSandal && hasBag)) {
-                // alert('You cannot have both a bag and sandal in your cart at the same time.');
                 return;
             }
             

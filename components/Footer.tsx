@@ -1,65 +1,126 @@
-"use client"
+"use client";
 
-import Image from "next/image";
 import { FaInstagram, FaTiktok } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import patOhnerLogo from '@/assets/Logo refined.png'
 import Link from "next/link";
-import axios from "axios";
-import { useState } from "react";
+import { useGetTenantInfo } from "@/api/queries/auth";
 
 export default function Footer() {
+  const { data: tenantInfo } = useGetTenantInfo();
   return (
-    <footer className="bg-[#000000] text-white py-12 sm:py-16 px-6 sm:px-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Add this section above the Top Section */}
-        <div className="mb-10 flex flex-col sm:flex-row sm:justify-start sm:items-center md:absolute">
-          {/* CONNECT */}
-            <div className="space-y-[-3px]">
-              <h3 className="font-syne font-semibold text-sm">CONTACT US</h3>
-              <p className="font-syne text-sm">
-                Abelfeliciaogechi@gmail.com
-              </p>
-              <p className="font-syne text-sm">
-                +234 7087547858
-              </p>
+    <footer className="bg-[#2E2E2E] text-white md:py-16 md:px-8">
+      <div className="md:hidden">
+          <div className="mb-10 flex flex-col gap-10 py-12 px-6">
+          <div className="space-y-[3px] font-azeret">
+            <h3 className="text-lg font-medium">CUSTOMER CARE</h3>
+            <p className="text-sm">
+              {tenantInfo?.data?.business_email || "N/A"}
+            </p>
+            <p className="text-sm">
+              {tenantInfo?.data?.business_phone_number || "N/A"}
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className=" font-medium text-xl font-azeret">Follow Us</h3>
+            <div className="flex gap-4 justify-start">
+              <Link
+                href={tenantInfo?.data?.instagram_handle || "#"}
+                target="_blank"
+              >
+                <FaInstagram className="text-xl" />
+              </Link>
+              <Link
+                href={tenantInfo?.data?.tiktok_handle || "#"}
+                target="_blank"
+              >
+                <FaTiktok className="text-xl" />
+              </Link>
+              <Link href={tenantInfo?.data?.x_handle || "#"} target="_blank">
+                <FaXTwitter className="text-xl" />
+              </Link>
             </div>
+          </div>
         </div>
 
-        {/* Top Section */}
-        <div className="flex flex-col sm:flex-row sm:justify-evenly sm:gap-[470px] items-start mb-12 sm:mb-20 gap-10">
-          <div className="hidden sm:block"></div>
-          <div className="space-y-8">
-            {/* FOLLOW US */}
+        <div className="flex items-center justify-center border border-white rounded-md">
+          <p className="p-5">
+            Powered by{" "}
+            <span className="text-xl hover:underline">
+              <Link
+                href="https://www.breezespaces.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Breezespaces
+              </Link>
+            </span>{" "}
+          </p>
+        </div>
+      </div>
+
+      <div className="hidden md:block">
+        <div className="flex justify-between items-center px-20">
+          <div className="mb-10 flex flex-col gap-10">
+            <div className="space-y-[3px] font-azeret">
+              <h3 className="text-lg font-medium">CONTACT US</h3>
+              <p className="text-sm">
+                {tenantInfo?.data?.business_email || "N/A"}
+              </p>
+              <p className="text-sm">
+                {tenantInfo?.data?.business_phone_number || "N/A"}
+              </p>
+            </div>
+
             <div className="space-y-2">
-              <h3 className="font-syne font-semibold text-sm">FOLLOW US</h3>
+              <h3 className=" font-medium text-xl font-azeret">Follow Us</h3>
               <div className="flex gap-4 justify-start">
                 <Link
-                  href="https://www.instagram.com/lheesfashionworld?igsh=bDZoeDhkYnVzMjV5/"
+                  href={tenantInfo?.data?.instagram_handle || "#"}
                   target="_blank"
                 >
                   <FaInstagram className="text-xl" />
                 </Link>
-                <Link href="https://www.tiktok.com/@lheesfashionworld?_r=1&_t=ZS-94glsgtJ7Hs" target="_blank">
+                <Link
+                  href={tenantInfo?.data?.tiktok_handle || "#"}
+                  target="_blank"
+                >
                   <FaTiktok className="text-xl" />
                 </Link>
-                <Link href="https://x.com/leesfashion_?s=21" target="_blank">
+                <Link href={tenantInfo?.data?.x_handle || "#"}>
                   <FaXTwitter className="text-xl" />
                 </Link>
               </div>
             </div>
           </div>
+
+          <div className="space-y-3">
+            <h3 className="text- font-medium">
+              RECEIVE DISCOUNT AND NEWSLETTER{" "}
+            </h3>
+            <input
+              placeholder="ENTER YOUR PHONE NUMBER OR EMAIL"
+              className="w-full bg-[#424242] rounded-md px-4 py-2 text-sm"
+            />
+            <button className="bg-white text-black py-2 px-6 rounded-md text-sm cursor-pointer">
+              Subscribe
+            </button>
+          </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="flex flex-col sm:flex-row justify-center  items-center text-xs sm:text-sm gap-x-10">
-          <p className="font-syne text-center sm:text-left">
-             Powered by {" "} <span className="text-xl hover:bg-sky-500"><Link href="https://www.breezespaces.com/" target="_blank" rel="noopener noreferrer">
-             Breezespaces</Link></span> ©2026. - All Rights Reserved.
+        <div className="flex items-center justify-center">
+          <p className="bg-[#423d32] p-5 rounded-xl w-max">
+            Powered by{" "}
+            <span className="text-xl hover:underline">
+              <Link
+                href="https://www.breezespaces.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Breezespaces
+              </Link>
+            </span>{" "}
           </p>
-          <Link href="/terms" className="font-syne">
-            Terms
-          </Link>
         </div>
       </div>
     </footer>
