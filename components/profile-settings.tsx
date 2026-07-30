@@ -86,7 +86,6 @@ const ProfileSettings = () => {
     refetch,
   } = useGetProfile();
   const userProfile = profile?.data;
-  console.log({ userProfile });
   const updateProfileMutation = useUpdateProfile();
 
   const [isPhoneDropdownOpen, setIsPhoneDropdownOpen] = useState(false);

@@ -2,24 +2,35 @@ import { api, apiAuth } from "../axios";
 import { ENDPOINTS } from "../endpoints";
 
 export type UserType = "admin" | "customer" | "business_super_admin";
+export type LoginProfile = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  user_type: UserType;
+  is_email_verified: boolean;
+  country: string;
+  phone_number: string;
+  currency: string;
+};
 export type Profile = {
-  active_currency: string
-  address_type: string
-  allow_promo_email: boolean
-  city: string
-  country_code: string
-  country_name: string
-  email: string
-  first_name: string
-  house_number: string | null
-  is_active: boolean
-  is_email_verified: boolean
-  last_name: string
-  phone_number: string | null
-  postal_code: string | null
-  state: string
-  street: string
-  user_id: string
+  active_currency: string;
+  address_type: string;
+  allow_promo_email: boolean;
+  city: string;
+  country_code: string;
+  country_name: string;
+  email: string;
+  first_name: string;
+  house_number: string | null;
+  is_active: boolean;
+  is_email_verified: boolean;
+  last_name: string;
+  phone_number: string | null;
+  postal_code: string | null;
+  state: string;
+  street: string;
+  user_id: string;
 };
 
 export type IRegister = {
@@ -51,7 +62,7 @@ export type ILoginRes = IMsgRes & {
       access: string;
       refresh: string;
     };
-    profile: Profile;
+    profile: LoginProfile;
     has_subscription: boolean;
     email: string;
   };
@@ -104,23 +115,23 @@ export type ITenantInfo = IMsgRes & {
 };
 
 export type IUpdateProfile = {
-  first_name: string
-  last_name: string
-  country: string
-  currency: string
-  address_type: string
-  house_number: string
-  street: string
-  city: string
-  state: string
-  postal_code: string
-  phone_number: string
-  allow_promo_email: boolean
-}
+  first_name: string;
+  last_name: string;
+  country: string;
+  currency: string;
+  address_type: string;
+  house_number: string;
+  street: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  phone_number: string;
+  allow_promo_email: boolean;
+};
 
 export type IProfileRes = IMsgRes & {
-  data: Profile
-}
+  data: Profile;
+};
 
 export type IVerifyOtpRes = IMsgRes & {
   data: {
@@ -148,7 +159,9 @@ export const getProfile = async (): Promise<IProfileRes> => {
   return response.data;
 };
 
-export const updateProfile = async (data: IUpdateProfile): Promise<IProfileRes> => {
+export const updateProfile = async (
+  data: IUpdateProfile,
+): Promise<IProfileRes> => {
   const response = await api.patch(ENDPOINTS.profile, data);
   return response.data;
 };

@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function filterParams(params: Record<string, unknown>) {
@@ -11,4 +11,8 @@ export function filterParams(params: Record<string, unknown>) {
       ([_, value]) => value !== undefined && value !== null,
     ),
   );
+}
+
+export function firstCharToUpperCase(str: string) {
+  return str[0].toUpperCase() + str.slice(1).toLocaleLowerCase();
 }

@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import PageNavBar from "./PageNavBar";
+import ReviewModal from "./ReviewModal";
 import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/store/cartSlice";
 import { toast } from "sonner";
@@ -11,11 +12,14 @@ import { Star, ChevronDown, ChevronUp, Plus, Minus, X } from "lucide-react";
 import { useGetProduct } from "@/api/queries/products";
 import { useParams } from "next/navigation";
 import { Button } from "./ui/button";
+import { firstCharToUpperCase } from "@/lib/utils";
 
 const Product = () => {
   const { id } = useParams();
   const { data } = useGetProduct(id as string);
   const product = data?.data;
+  const options = product?.options || [];
+  const [first, second] = [options[0]?.name, options[1]?.name];
   const dispatch = useAppDispatch();
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -23,8 +27,21 @@ const Product = () => {
 
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
+  const price = Number(
+    product?.variants?.find(
+      (variant) =>
+        variant.sku ===
+        `${first === "color" ? color : first === "size" ? size : ""}-${second === "color" ? color : second === "size" ? size : ""}`,
+    )?.product_price,
+  );
   const [quantity, setQuantity] = useState(1);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+
+  useEffect(() => {
+    setSize(options?.find((o) => o.name === "size")?.values[0]?.name || "");
+    setColor(options?.find((o) => o.name === "color")?.values[0]?.name || "");
+  }, [product]);
 
   const [expandedSection, setExpandedSection] = useState<
     "desc" | "delivery" | "reviews" | null
@@ -63,7 +80,7 @@ const Product = () => {
     dispatch(
       addToCart({
         name: product?.product_name || "",
-        price: 0,
+        price: price || 0,
         imageUrl: product?.product_images[activeIndex].image as string,
         quantity: quantity,
         color: color,
@@ -105,19 +122,21 @@ const Product = () => {
               ))}
             </div>
 
-            <div className="grow bg-[#F8F8F8] aspect-square rounded-2xl relative flex items-center justify-center p-6 border border-neutral-100 overflow-hidden">
+            <div className="grow h-max w-full bg-[#F8F8F8] aspect-square rounded-2xl relative flex items-center justify-center p-6 border border-neutral-100 overflow-hidden">
               <div
-                className={`relative w-full h-full transition-opacity duration-200 ${
+                className={`transition-opacity duration-200 ${
                   fade ? "opacity-0" : "opacity-100"
                 }`}
               >
-                <Image
-                  src={product?.product_images[activeIndex].image as string}
-                  alt={product?.product_name || ""}
-                  fill
-                  className="object-contain p-4"
-                  priority
-                />
+                {product?.product_images[activeIndex].image && (
+                  <Image
+                    src={product?.product_images[activeIndex].image as string}
+                    alt={product?.product_name || ""}
+                    fill
+                    className="object-contain p-4"
+                    priority
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -128,16 +147,11 @@ const Product = () => {
                 {product?.product_name}
               </h1>
               <p className="text-2xl font-semibold text-black">
-                {product?.variants?.[0]?.product_price
-                  ? `₦${Number(product.variants[0].product_price).toLocaleString()}`
-                  : "N/A"}
+                ₦{price.toLocaleString()}
               </p>
             </div>
 
             <div className="flex flex-col gap-1.5 border-t border-neutral-100 pt-4">
-              <span className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-                Select Color:
-              </span>
               <div className="flex items-center gap-2">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
@@ -158,16 +172,23 @@ const Product = () => {
             </div>
 
             <div className="flex flex-col gap-4">
-              {product?.variants?.map((variant, idx) => (
-                <div key={variant.sku || idx} className="flex flex-col gap-2">
+              {options?.map((option, idx) => (
+                <div key={option.name || idx} className="flex flex-col gap-2">
                   <label className="text-sm font-semibold font-syne tracking-wider">
-                    Select Color:
+                    Select {firstCharToUpperCase(option.name)}:
                   </label>
                   <div className="relative">
                     <select
-                      value={color}
+                      value={
+                        option.name === "color"
+                          ? color
+                          : option.name === "size"
+                            ? size
+                            : ""
+                      }
                       onChange={(e) => {
-                        setColor(e.target.value);
+                        if (option.name === "size") setSize(e.target.value);
+                        if (option.name === "color") setColor(e.target.value);
                         if (e.target.value)
                           setErrors((prev) => ({ ...prev, color: false }));
                       }}
@@ -178,9 +199,9 @@ const Product = () => {
                       }`}
                     >
                       <option value="" disabled>
-                        Please select color
+                        Please select {option.name.toLowerCase()}
                       </option>
-                      {variant.option_values?.map((opt) => (
+                      {option.values?.map((opt) => (
                         <option key={opt.name} value={opt.name}>
                           {opt.name}
                         </option>
@@ -193,40 +214,6 @@ const Product = () => {
                   </div>
                 </div>
               ))}
-
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-semibold font-syne tracking-wider">
-                  Select preferred size:
-                </label>
-                <div className="relative">
-                  <select
-                    value={size}
-                    onChange={(e) => {
-                      setSize(e.target.value);
-                      if (e.target.value)
-                        setErrors((prev) => ({ ...prev, size: false }));
-                    }}
-                    className={`w-full bg-[#F1F1F1] border rounded-md py-3.5 px-4 text-sm font-medium appearance-none outline-none transition-colors cursor-pointer pr-10 ${
-                      errors.size
-                        ? "border-red-500 bg-red-50/10 focus:border-red-500"
-                        : "border-neutral-200 focus:border-black"
-                    }`}
-                  >
-                    <option value="" disabled>
-                      Size
-                    </option>
-                    <option value="37">37</option>
-                    <option value="38">38</option>
-                    <option value="39">39</option>
-                    <option value="40">40</option>
-                    <option value="41">41</option>
-                  </select>
-                  <ChevronDown
-                    size={16}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 pointer-events-none"
-                  />
-                </div>
-              </div>
 
               <div>
                 <button
@@ -264,7 +251,7 @@ const Product = () => {
 
               <button
                 onClick={handleAddToBag}
-                className="w-full bg-[#7E7E7E] hover:bg-neutral-800 active:scale-[0.99] transition-all text-white font-semibold py-4 px-6 text-sm tracking-widest uppercase rounded-sm mt-4 shadow-sm cursor-pointer"
+                className="w-full bg-neutral-800 hover:opacity-95 active:scale-[0.99] transition-all text-white font-semibold py-4 px-6 text-sm tracking-widest uppercase rounded-sm mt-4 shadow-sm cursor-pointer"
               >
                 ADD TO BAG
               </button>
@@ -313,7 +300,7 @@ const Product = () => {
 
               <div
                 className={`transition-all duration-300 overflow-hidden ${
-                  expandedSection === "delivery" ? "max-h-[500px]" : "max-h-0"
+                  expandedSection === "delivery" ? "max-h-125" : "max-h-0"
                 }`}
               >
                 <div className="bg-[#F1F1F1] py-6 px-20 border-t border-neutral-200 text-sm text-neutral-800 space-y-3 font-sans leading-relaxed">
@@ -377,7 +364,10 @@ const Product = () => {
                     Help other shoppers out! Be the first to to review this
                     product
                   </p>
-                  <Button className="px-10 py-6 bg-transparent rounded-none text-black border border-black hover:text-white hover:bg-black cursor-pointer">
+                  <Button
+                    onClick={() => setIsReviewOpen(true)}
+                    className="px-10 py-6 bg-transparent rounded-none text-black border border-black hover:text-white hover:bg-black cursor-pointer"
+                  >
                     Write a review
                   </Button>
                 </div>
@@ -458,6 +448,7 @@ const Product = () => {
           </div>
         </div>
       )}
+      <ReviewModal isOpen={isReviewOpen} onOpenChange={setIsReviewOpen} />
     </div>
   );
 };

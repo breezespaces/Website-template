@@ -85,7 +85,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => navigate.push(`/shop/${product.id}`)}
-                  className={`py-2.5 text-[10px] tracking-widest border 
+                  className={`py-2.5 text-[10px] tracking-widest border
                   transition-all border-black hover:bg-black hover:text-white hover:cursor-pointer rounded-sm`}
                 >
                   VIEW ITEM

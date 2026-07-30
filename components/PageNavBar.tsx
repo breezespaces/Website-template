@@ -24,11 +24,10 @@ export default function PageNavBar() {
   const { data } = useGetProducts({});
   const availableItems = data?.data.results || [];
 
-  console.log({ userProfile });
   return (
     <>
       <nav
-        className="w-full bg-white text-black px-4 py-8 md:px-10 h-[59px] flex items-center justify-between 
+        className="w-full bg-white text-black px-4 py-8 md:px-10 h-[59px] flex items-center justify-between
          sticky top-0 left-0 z-50 shadow-md"
       >
         <div className="flex items-center md:hidden">
