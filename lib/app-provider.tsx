@@ -27,12 +27,12 @@ export default function AppProvider({
   );
 
   return (
-    <ClientLayout>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <ClientLayout>
         <Toaster position="top-right" />
         {children}
         <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </ClientLayout>
+      </ClientLayout>
+    </QueryClientProvider>
   );
 }

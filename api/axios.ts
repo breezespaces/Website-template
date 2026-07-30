@@ -10,7 +10,6 @@ export const apiAuth = axios.create({
   },
 });
 
-
 const resolveTenantDomain = async (): Promise<string> => {
   if (typeof window === "undefined") {
     try {
@@ -19,7 +18,7 @@ const resolveTenantDomain = async (): Promise<string> => {
       const hostname = headersList.get("host") || "";
 
       if (hostname.includes("localhost")) {
-        return "test-245.breezespaces.com";
+        return "test-storefront-68d.breezespaces.com";
       }
       return hostname;
     } catch (e) {
@@ -27,9 +26,10 @@ const resolveTenantDomain = async (): Promise<string> => {
     }
   }
 
-  if (window.location.hostname.includes("localhost")) return "test-245.breezespaces.com"
+  if (window.location.hostname.includes("localhost"))
+    return "test-storefront-68d.breezespaces.com";
 
-  return ""
+  return window.location.hostname;
 };
 
 export const api = axios.create({
@@ -39,16 +39,13 @@ export const api = axios.create({
   },
 });
 
-const appendTenantHeader = async (config: InternalAxiosRequestConfig) => {
-  const domain = await resolveTenantDomain();
-  config.headers["X-Tenant-Domain"] = domain;
-  return config;
-};
+const appendTenantHeader = (config: InternalAxiosRequestConfig) =>
+  resolveTenantDomain().then((domain) => {
+    config.headers["X-Tenant-Domain"] = domain;
+    return config;
+  });
 
-apiAuth.interceptors.request.use(async (config) => await appendTenantHeader(config), (err) => Promise.reject(err));
-api.interceptors.request.use(async (config) => await appendTenantHeader(config), (err) => Promise.reject(err));
-
-api.interceptors.request.use(async (config) => {
+const appendAuthHeader = async (config: InternalAxiosRequestConfig) => {
   let token: string | undefined;
   if (typeof window !== "undefined") {
     const tokenCookie = document.cookie
@@ -65,7 +62,11 @@ api.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-});
+};
+
+apiAuth.interceptors.request.use(appendTenantHeader);
+api.interceptors.request.use(appendTenantHeader);
+api.interceptors.request.use(appendAuthHeader);
 
 api.interceptors.response.use(
   (response) => {

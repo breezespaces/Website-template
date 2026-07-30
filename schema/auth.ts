@@ -62,4 +62,3 @@ export const profileSettingsSchema = z.object({
   city: z.string().min(1, "City is required"),
   address: z.string().min(1, "Address is required"),
 });
-

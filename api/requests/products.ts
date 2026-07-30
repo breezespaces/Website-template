@@ -40,8 +40,8 @@ type IProductVariant = {
 
 export type IProductDetailsRes = IMsgRes & {
   data: {
-    allow_preorder: boolean
-    average_rating: number
+    allow_preorder: boolean;
+    average_rating: number;
     categories: {
       id: string;
       name: string;
@@ -49,20 +49,21 @@ export type IProductDetailsRes = IMsgRes & {
       product_count: string;
       created_at: string;
     }[];
-    created_at: string
-    id: string
-    inventory_count: number
-    is_published: boolean
-    product_description: string
+    created_at: string;
+    id: string;
+    inventory_count: number;
+    is_published: boolean;
+    product_description: string;
     product_images: {
       id: string;
       image: string;
     }[];
-    product_name: string
-    review_count: 0
-    updated_at: "2026-06-03T16:41:47.944848Z"
-    variant_count: 1
+    product_name: string;
+    review_count: 0;
+    updated_at: "2026-06-03T16:41:47.944848Z";
+    variant_count: 1;
     variants: (IProductVariant & { option_values: { name: string }[] })[];
+    options: IProductOption[];
   };
 };
 
@@ -79,7 +80,6 @@ export type IMsgRes = {
   message: string;
   status: string;
 };
-
 
 export const getProducts = async (params: IParams): Promise<IProductRes> => {
   const filteredParams = filterParams(params);
