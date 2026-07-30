@@ -153,7 +153,7 @@ export default function ReviewModal({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full max-w-[360px] bg-black hover:bg-neutral-800 active:scale-[0.99] disabled:bg-neutral-400 disabled:cursor-not-allowed transition-all text-white font-semibold py-4 px-6 text-sm tracking-widest uppercase rounded-md shadow-md cursor-pointer text-center"
+              className="w-full max-w-90 bg-black hover:bg-neutral-800 active:scale-[0.99] disabled:bg-neutral-400 disabled:cursor-not-allowed transition-all text-white font-semibold py-4 px-6 text-sm tracking-widest uppercase rounded-md shadow-md cursor-pointer text-center"
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>

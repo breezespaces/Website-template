@@ -27,7 +27,7 @@ export default function PageNavBar() {
   return (
     <>
       <nav
-        className="w-full bg-white text-black px-4 py-8 md:px-10 h-[59px] flex items-center justify-between
+        className="w-full bg-white text-black px-4 py-8 md:px-10 h-14.75 flex items-center justify-between
          sticky top-0 left-0 z-50 shadow-md"
       >
         <div className="flex items-center md:hidden">
@@ -42,11 +42,11 @@ export default function PageNavBar() {
 
         <div className="hidden md:flex gap-6 text-sm font-light relative left-10">
           <div className="relative group">
-            <button className="hover:underline font-semibold text-[13px] leading-[35px] tracking-[0%]">
+            <button className="hover:underline font-semibold text-[13px] leading-8.75 tracking-[0%]">
               SHOP
             </button>
 
-            <div className="fixed left-0 right-2 max-h-[400px] top-[59px] mx-5 bg-[#F1F1F1] shadow-lg border-t border-gray-200 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all delay-100 overflow-x-hidden">
+            <div className="fixed left-0 right-2 max-h-100 top-14.75 mx-5 bg-[#F1F1F1] shadow-lg border-t border-gray-200 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all delay-100 overflow-x-hidden">
               <div className="px-4 py-3 space-y-3">
                 <span className="block text-[18px] font-semibold tracking-tight text-black antialiased font-syne">
                   Available Items
@@ -67,7 +67,7 @@ export default function PageNavBar() {
           </div>
           <Link
             href="/about"
-            className="hover:underline font-semibold text-[13px] leading-[35px] tracking-[0%] uppercase"
+            className="hover:underline font-semibold text-[13px] leading-8.75 tracking-[0%] uppercase"
           >
             ABOUT {tenantInfo?.data.business_name}
           </Link>
@@ -76,7 +76,7 @@ export default function PageNavBar() {
         <div className="">
           <Link
             href="/"
-            className="text-lg font-semibold sm:text-[20px] text-[13px] leading-[35px] tracking-[0.4em]"
+            className="text-lg font-semibold sm:text-[20px] text-[13px] leading-8.75 tracking-[0.4em]"
           >
             {tenantInfo?.data.business_name}
           </Link>
@@ -125,7 +125,7 @@ export default function PageNavBar() {
       </nav>
       <div className="border-b-2 border-black relative bottom-3"></div>
       {isMenuOpen && (
-        <div className="md:hidden absolute top-[63px] left-0 right-0 z-40 bg-white shadow-md border-t border-gray-200">
+        <div className="md:hidden absolute top-15.75 left-0 right-0 z-40 bg-white shadow-md border-t border-gray-200">
           <div className="flex items-start px-6 py-4 space-x-8 ">
             <button
               className="text-base font-semibold uppercase tracking-wide bg-transparent border-none p-0 m-0"
