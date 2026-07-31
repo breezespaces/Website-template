@@ -1,0 +1,36 @@
+name: Deploy App
+
+on:
+  push:
+    branches:
+      - main
+      - dev-benjamin
+
+jobs:
+  deploy:
+    name: Deploy App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Deploy to Prod
+        env:
+          HOST: ${{ secrets.PROD_HOST }}
+          USER: root 
+          PASS: ${{ secrets.PROD_SSH_KEY }}
+        run: |
+          sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no $USER@$HOST 'bash /home/ubuntu/.reload-template.sh'
+
+      - name: Verify Deployment
+        env:
+          HOST: ${{ secrets.PROD_HOST }}
+          USER: root
+          PASS: ${{ secrets.PROD_SSH_KEY }}
+        run: |
+          sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no $USER@$HOST 'sudo systemctl status template'
+    
