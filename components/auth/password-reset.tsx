@@ -32,7 +32,7 @@ export default function PasswordResetForm() {
     try {
       await sendOtp({ email: email, user_type: "business_super_admin" });
       toast.success("Otp sent to email!");
-      router.push(`/auth/verify-otp?email=${email}`);
+      router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
     } catch {}
   };
   return (

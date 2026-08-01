@@ -56,7 +56,9 @@ export default function VerifyOTP() {
       });
       toast.success("Verified Account Successfully!");
       localStorage.setItem("rpo", res.data.access_token);
-      router.push(`/auth/set-password?email=${email}`);
+      router.push(
+        `/auth/set-password?email=${encodeURIComponent(email || "")}`,
+      );
     } catch {}
   };
 

@@ -38,7 +38,9 @@ export default function SignupForm() {
       const res = await signup(data);
       toast.success("Created account successfully!");
       toast.success(res.message);
-      router.push(`/auth/confirm-email?email=${res.data.email}`);
+      router.push(
+        `/auth/confirm-email?email=${encodeURIComponent(res.data.email)}`,
+      );
     } catch {}
   };
 
