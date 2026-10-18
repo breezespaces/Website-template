@@ -156,6 +156,7 @@ export const register = async (data: IRegister): Promise<IRegisterRes> => {
 
 export const getProfile = async (): Promise<IProfileRes> => {
   const response = await api.get(ENDPOINTS.profile);
+  console.log({ response });
   return response.data;
 };
 
@@ -180,6 +181,23 @@ export const sendOtp = async (data: ISendOtp): Promise<IMsgRes> => {
 
 export const getTenantInfo = async (): Promise<ITenantInfo> => {
   const response = await api.get(ENDPOINTS.getTenantInfo);
+  return response.data;
+};
+
+export type IRefreshTokenReq = {
+  refresh: string;
+};
+
+export type IRefreshTokenRes = IMsgRes & {
+  data: {
+    access: string;
+  };
+};
+
+export const refreshTokenApi = async (
+  data: IRefreshTokenReq,
+): Promise<IRefreshTokenRes> => {
+  const response = await apiAuth.post(ENDPOINTS.refreshToken, data);
   return response.data;
 };
 

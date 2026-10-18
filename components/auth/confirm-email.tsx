@@ -37,6 +37,7 @@ export function ConfirmEmail() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      if (timer <= 0) return;
       setTimer((prev) => prev - 1);
     }, 1000);
     return () => clearTimeout(timeout);

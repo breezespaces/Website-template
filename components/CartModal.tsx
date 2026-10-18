@@ -14,6 +14,8 @@ import { toast } from "sonner";
 import { set } from "zod/v3";
 import { Input } from "./ui/input";
 
+import { useCheckoutApi } from "@/api/mutations/checkout";
+
 interface CartModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,10 +27,7 @@ const CartModal: React.FC<CartModalProps> = ({
   onClose,
   cartItems,
 }) => {
-  // const { makePayment, loading, error } = usePaystackApi();
-  const navigate = useRouter();
-  const makePayment = (args: any) => {};
-  const [loading, error] = [true, null];
+  const checkoutMutation = useCheckoutApi();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { data: tenantInfo } = useGetTenantInfo();
@@ -612,49 +611,82 @@ const CartModal: React.FC<CartModalProps> = ({
               </div>
             ) : !isPaymentForm ? null : (
               <>
-                {error && (
+                {checkoutMutation.isError && (
                   <p className="text-red-500 text-center text-sm mb-2">
-                    {error}
+                    {(checkoutMutation.error as any)?.response?.data?.message ||
+                      checkoutMutation.error?.message ||
+                      "Checkout error occurred"}
                   </p>
                 )}
                 <button
                   className={`w-full bg-black text-white py-3 font-bold transition-colors text-sm tracking-wide ${
-                    !paymentMethod || loading
+                    !paymentMethod || checkoutMutation.isPending
                       ? "opacity-50 cursor-not-allowed"
                       : "hover:bg-gray-800"
                   }`}
-                  disabled={!paymentMethod || loading}
-                  onClick={
-                    paymentMethod === "paystack"
-                      ? async () => {
-                          makePayment({
-                            email: deliveryForm.email,
-                            amount: total + SHIPPING,
-                            order: {
-                              items: cartItems,
-                              total: total + SHIPPING,
-                              deliveryDetails: deliveryForm,
-                            },
-                            onSuccess: () => {
-                              const orderData = {
-                                items: cartItems,
-                                total: total + SHIPPING,
-                                deliveryDetails: deliveryForm,
-                                timestamp: new Date().toISOString(),
-                              };
-                              localStorage.setItem(
-                                "lfw_order",
-                                JSON.stringify(orderData),
-                              );
-                              handleClose();
-                              dispatch(clearCart());
-                            },
-                          });
-                        }
-                      : undefined
-                  }
+                  disabled={!paymentMethod || checkoutMutation.isPending}
+                  onClick={async () => {
+                    try {
+                      const payload = {
+                        email: deliveryForm.email,
+                        first_name: deliveryForm.firstName,
+                        last_name: deliveryForm.lastName,
+                        phone_number: deliveryForm.phone,
+                        house_number: deliveryForm.houseNumber || "1",
+                        city: deliveryForm.city,
+                        state: deliveryForm.state,
+                        postal_code: deliveryForm.postcode || "100001",
+                        country: deliveryForm.country,
+                        allow_promo_email: "true",
+                        callback_url: `${window.location.origin}/payment-success`,
+                      };
+
+                      const res = await checkoutMutation.mutateAsync(payload);
+                      const orderData = {
+                        items: cartItems,
+                        total: total + SHIPPING,
+                        deliveryDetails: deliveryForm,
+                        reference: res.reference,
+                        order_id: res.order_id,
+                        timestamp: new Date().toISOString(),
+                      };
+                      localStorage.setItem(
+                        "lfw_order",
+                        JSON.stringify(orderData),
+                      );
+
+                      const existingOrders = JSON.parse(
+                        localStorage.getItem("customer_orders") || "[]",
+                      );
+                      if (!existingOrders.includes(res.order_id)) {
+                        localStorage.setItem(
+                          "customer_orders",
+                          JSON.stringify([res.order_id, ...existingOrders]),
+                        );
+                      }
+
+                      dispatch(clearCart());
+                      handleClose();
+                      toast.success("Order created! Redirecting to payment...");
+                      if (res.authorization_url) {
+                        window.location.href = res.authorization_url;
+                      } else {
+                        router.push(
+                          `/payment-success?reference=${res.reference}`,
+                        );
+                      }
+                    } catch (err: any) {
+                      toast.error(
+                        err?.response?.data?.message ||
+                          err?.message ||
+                          "Checkout failed. Please try again.",
+                      );
+                    }
+                  }}
                 >
-                  {loading ? "PROCESSING..." : "COMPLETE ORDER"}
+                  {checkoutMutation.isPending
+                    ? "PROCESSING..."
+                    : "COMPLETE ORDER"}
                 </button>
               </>
             )}

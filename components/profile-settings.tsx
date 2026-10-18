@@ -12,6 +12,10 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSettingsSchema } from "@/schema/auth";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  useGetSupportedCountries,
+  useGetSupportedCurrencies,
+} from "@/api/queries/options";
 
 type FormValues = z.infer<typeof profileSettingsSchema>;
 
@@ -85,8 +89,11 @@ const ProfileSettings = () => {
     isLoading: isProfileLoading,
     refetch,
   } = useGetProfile();
+  console.log({ profile });
   const userProfile = profile?.data;
   const updateProfileMutation = useUpdateProfile();
+  const { data: supportedCountriesRes } = useGetSupportedCountries();
+  const { data: supportedCurrenciesRes } = useGetSupportedCurrencies();
 
   const [isPhoneDropdownOpen, setIsPhoneDropdownOpen] = useState(false);
   const [selectedPhoneCountry, setSelectedPhoneCountry] = useState(
@@ -435,7 +442,15 @@ const ProfileSettings = () => {
                     }}
                   >
                     <option value="">Select country</option>
-                    {Object.keys(countryData).map((c) => (
+                    {(supportedCountriesRes?.results?.length
+                      ? Array.from(
+                          new Set([
+                            ...supportedCountriesRes.results.map((c) => c.name),
+                            ...Object.keys(countryData),
+                          ]),
+                        )
+                      : Object.keys(countryData)
+                    ).map((c) => (
                       <option key={c} value={c}>
                         {c}
                       </option>

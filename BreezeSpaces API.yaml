@@ -1,0 +1,4701 @@
+openapi: 3.0.3
+info:
+  title: BreezeSpaces API
+  version: 1.0.0
+  description: BreezeSpaces API Documentation
+paths:
+  /api/v1/auth/business/complete-store-information/:
+    put:
+      operationId: auth_business_complete_store_information_update
+      tags:
+      - Business -> Auth
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/KycBusinessUpdateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycBusinessUpdate'
+          description: ''
+  /api/v1/auth/business/email-signup/:
+    post:
+      operationId: auth_business_email_signup_create
+      tags:
+      - Business -> Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailSignupBusinessRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmailSignupBusinessRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmailSignupBusinessRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailSignupBusiness'
+          description: ''
+  /api/v1/auth/business/email-signup/verify-email/:
+    post:
+      operationId: auth_business_email_signup_verify_email_create
+      tags:
+      - Business -> Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailSignupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailSignupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailSignupRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyEmailSignup'
+          description: ''
+  /api/v1/auth/customer/email-signup/:
+    post:
+      operationId: auth_customer_email_signup_create
+      tags:
+      - Customer -> Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailSignupCustomerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmailSignupCustomerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmailSignupCustomerRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailSignupCustomer'
+          description: ''
+  /api/v1/auth/customer/email-signup/verify-email/:
+    post:
+      operationId: auth_customer_email_signup_verify_email_create
+      tags:
+      - Customer -> Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailSignupCustomerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailSignupCustomerRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailSignupCustomerRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyEmailSignupCustomer'
+          description: ''
+  /api/v1/auth/customer/tenant-info/:
+    get:
+      operationId: auth_customer_tenant_info_retrieve
+      tags:
+      - Customer -> Auth
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerTenantInfo'
+          description: ''
+  /api/v1/auth/email-login/:
+    post:
+      operationId: auth_email_login_create
+      description: Obtain JWT token pair. `user_type` includes (`admin`, `customer`,
+        `business_super_admin`).
+      tags:
+      - Email-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomTokenObtainPair'
+          description: ''
+  /api/v1/auth/email-login/refresh/:
+    post:
+      operationId: auth_email_login_refresh_create
+      description: Get refresh JWT token.
+      tags:
+      - Email-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/auth/forgot-password/send-otp/:
+    post:
+      operationId: auth_forgot_password_send_otp_create
+      tags:
+      - Forgot-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordSendOtpRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordSendOtpRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordSendOtpRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPasswordSendOtp'
+          description: ''
+  /api/v1/auth/forgot-password/update-password/:
+    post:
+      operationId: auth_forgot_password_update_password_create
+      tags:
+      - Forgot-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordUpdatePasswordRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordUpdatePasswordRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordUpdatePasswordRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPasswordUpdatePassword'
+          description: ''
+  /api/v1/auth/forgot-password/verify-otp/:
+    post:
+      operationId: auth_forgot_password_verify_otp_create
+      tags:
+      - Forgot-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordVerifyOtpRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordVerifyOtpRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordVerifyOtpRequest'
+        required: true
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPasswordVerifyOtp'
+          description: ''
+  /api/v1/auth/options/supported-countries/:
+    get:
+      operationId: auth_options_supported_countries_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Options
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomerSupportedCountryList'
+          description: ''
+  /api/v1/auth/options/supported-currencies/:
+    get:
+      operationId: auth_options_supported_currencies_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Options
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomerSupportedCurrencyList'
+          description: ''
+  /api/v1/billing/business/bank-accounts/:
+    get:
+      operationId: billing_business_bank_accounts_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBusinessBankAccountList'
+          description: ''
+  /api/v1/billing/business/bank-accounts/{id}/delete/:
+    delete:
+      operationId: billing_business_bank_accounts_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/billing/business/bank-accounts/add/:
+    post:
+      operationId: billing_business_bank_accounts_add_create
+      tags:
+      - Business -> Billing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddBankAccountRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddBankAccountRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddBankAccountRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddBankAccount'
+          description: ''
+  /api/v1/billing/business/banks/:
+    get:
+      operationId: billing_business_banks_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBankListList'
+          description: ''
+  /api/v1/billing/business/banks/resolve/:
+    post:
+      operationId: billing_business_banks_resolve_create
+      tags:
+      - Business -> Billing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountResolutionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AccountResolutionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccountResolutionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResolution'
+          description: ''
+  /api/v1/billing/business/plans/:
+    get:
+      operationId: billing_business_plans_list
+      parameters:
+      - in: query
+        name: interval
+        schema:
+          type: string
+          enum:
+          - annually
+          - monthly
+        description: |-
+          * `monthly` - Monthly
+          * `annually` - Annually
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: tier
+        schema:
+          type: string
+          enum:
+          - free
+          - growth
+          - pro
+          - starter
+        description: |-
+          * `free` - Free
+          * `starter` - Starter
+          * `growth` - Growth
+          * `pro` - Pro
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBusinessSubscriptionPlanList'
+          description: ''
+  /api/v1/billing/business/subscription/:
+    get:
+      operationId: billing_business_subscription_retrieve
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessSubscription'
+          description: ''
+  /api/v1/billing/business/subscription/cancel/:
+    post:
+      operationId: billing_business_subscription_cancel_create
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessCancelSubscription'
+          description: ''
+  /api/v1/billing/business/subscription/history/:
+    get:
+      operationId: billing_business_subscription_history_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBusinessSubscriptionList'
+          description: ''
+  /api/v1/billing/business/subscription/manage/:
+    get:
+      operationId: billing_business_subscription_manage_retrieve
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessCancelSubscription'
+          description: ''
+  /api/v1/billing/business/subscription/subscribe/:
+    post:
+      operationId: billing_business_subscription_subscribe_create
+      tags:
+      - Business -> Billing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusinessSubscribeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusinessSubscribeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusinessSubscribeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessSubscribe'
+          description: ''
+  /api/v1/billing/business/subscription/upgrade/:
+    post:
+      operationId: billing_business_subscription_upgrade_create
+      tags:
+      - Business -> Billing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusinessSubscribeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusinessSubscribeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusinessSubscribeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessSubscribe'
+          description: ''
+  /api/v1/billing/business/wallet/:
+    get:
+      operationId: billing_business_wallet_retrieve
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessWallet'
+          description: ''
+  /api/v1/billing/business/wallet/transactions/:
+    get:
+      operationId: billing_business_wallet_transactions_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWalletTransactionList'
+          description: ''
+  /api/v1/billing/business/withdrawals/:
+    get:
+      operationId: billing_business_withdrawals_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Business -> Billing
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWithdrawalRequestList'
+          description: ''
+  /api/v1/billing/business/withdrawals/initiate/:
+    post:
+      operationId: billing_business_withdrawals_initiate_create
+      tags:
+      - Business -> Billing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiateWithdrawalRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InitiateWithdrawalRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InitiateWithdrawalRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitiateWithdrawal'
+          description: ''
+  /api/v1/carts/customer/cart/:
+    get:
+      operationId: carts_customer_cart_retrieve
+      tags:
+      - Customer -> Carts
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+          description: ''
+  /api/v1/carts/customer/cart/add/:
+    post:
+      operationId: carts_customer_cart_add_create
+      tags:
+      - Customer -> Carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddToCartRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddToCartRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddToCartRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddToCart'
+          description: ''
+  /api/v1/carts/customer/cart/clear/:
+    delete:
+      operationId: carts_customer_cart_clear_destroy
+      tags:
+      - Customer -> Carts
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/carts/customer/cart/remove/{variant_id}/:
+    delete:
+      operationId: carts_customer_cart_remove_destroy
+      parameters:
+      - in: path
+        name: variant_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Customer -> Carts
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/carts/customer/cart/update/{variant_id}/:
+    patch:
+      operationId: carts_customer_cart_update_partial_update
+      parameters:
+      - in: path
+        name: variant_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Customer -> Carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateCartItemRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateCartItemRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateCartItemRequest'
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCartItem'
+          description: ''
+  /api/v1/carts/customer/checkout/:
+    post:
+      operationId: carts_customer_checkout_create
+      tags:
+      - Customer -> Carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkout'
+          description: ''
+  /api/v1/carts/customer/checkout/callback/{reference}/:
+    get:
+      operationId: carts_customer_checkout_callback_retrieve
+      parameters:
+      - in: path
+        name: reference
+        schema:
+          type: string
+        required: true
+      tags:
+      - Customer -> Carts
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+  /api/v1/dns/check-domain-availability/:
+    post:
+      operationId: dns_check_domain_availability_create
+      tags:
+      - Check-domain-availability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainAvailabilityRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DomainAvailabilityRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DomainAvailabilityRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainAvailability'
+          description: ''
+  /api/v1/dns/domain-check/:
+    get:
+      operationId: dns_domain_check_retrieve
+      description: Not for external Use
+      tags:
+      - Domain-check
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/dns/purchase-domain/:
+    post:
+      operationId: dns_purchase_domain_create
+      tags:
+      - Purchase-domain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainPurchaseRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DomainPurchaseRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DomainPurchaseRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainPurchase'
+          description: ''
+  /api/v1/orders/business/customer-create/:
+    post:
+      operationId: orders_business_customer_create_create
+      tags:
+      - Business -> Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusinessCustomerCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusinessCustomerCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BusinessCustomerCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessCustomerCreate'
+          description: ''
+  /api/v1/orders/business/customer-list/:
+    get:
+      operationId: orders_business_customer_list_list
+      parameters:
+      - in: query
+        name: allow_promo_email
+        schema:
+          type: boolean
+      - in: query
+        name: country
+        schema:
+          type: string
+          format: uuid
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Business -> Orders
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBusinessCustomerListList'
+          description: ''
+  /api/v1/orders/business/order-list/:
+    get:
+      operationId: orders_business_order_list_list
+      parameters:
+      - in: query
+        name: currency_id
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: order_status
+        schema:
+          type: string
+          enum:
+          - fulfilled
+          - unfulfilled
+        description: |-
+          * `fulfilled` - Fulfilled
+          * `unfulfilled` - Unfulfilled
+      - in: query
+        name: order_type
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - offline
+          - online
+        description: |-
+          * `online` - Online
+          * `offline` - Offline
+      - in: query
+        name: payment_method
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - bank_transfer
+          - card
+          - cash_on_delivery
+        description: |-
+          * `card` - Card
+          * `bank_transfer` - Bank Transfer
+          * `cash_on_delivery` - Cash on Delivery
+      - in: query
+        name: payment_status
+        schema:
+          type: string
+          enum:
+          - failed
+          - paid
+          - partially_paid
+          - refunded
+          - unpaid
+        description: |-
+          * `unpaid` - Unpaid
+          * `paid` - Paid
+          * `partially_paid` - Partially Paid
+          * `failed` - Failed
+          * `refunded` - Refunded
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Business -> Orders
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedListOrderList'
+          description: ''
+  /api/v1/orders/business/orders/{order_id}/:
+    get:
+      operationId: orders_business_orders_retrieve
+      parameters:
+      - in: path
+        name: order_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Business -> Orders
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+  /api/v1/orders/business/orders/{order_id}/payment/:
+    post:
+      operationId: orders_business_orders_payment_create
+      parameters:
+      - in: path
+        name: order_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Business -> Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualOrderPaymentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ManualOrderPaymentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ManualOrderPaymentRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualOrderPayment'
+          description: ''
+  /api/v1/orders/business/orders/{order_id}/status/:
+    patch:
+      operationId: orders_business_orders_status_partial_update
+      parameters:
+      - in: path
+        name: order_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Business -> Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderStatusUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderStatusUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderStatusUpdateRequest'
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderStatusUpdate'
+          description: ''
+  /api/v1/orders/business/orders/create/:
+    post:
+      operationId: orders_business_orders_create_create
+      tags:
+      - Business -> Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualOrderCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ManualOrderCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ManualOrderCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualOrderCreate'
+          description: ''
+  /api/v1/orders/customer/orders/{order_id}/:
+    get:
+      operationId: orders_customer_orders_retrieve
+      description: |-
+        GET /store/orders/<order_id>/
+        Public — requires only X-Tenant-Domain.
+        Accessible by anyone with the order_id (sent in confirmation email).
+      parameters:
+      - in: path
+        name: order_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Customer -> Orders
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+  /api/v1/products/business/product/:
+    get:
+      operationId: products_business_product_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Business -> Products
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedListCreateBusinessProductList'
+          description: ''
+    put:
+      operationId: products_business_product_update
+      tags:
+      - Business -> Products
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ListCreateBusinessProductRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListCreateBusinessProductRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCreateBusinessProduct'
+          description: ''
+  /api/v1/products/business/product/{product_id}/:
+    get:
+      operationId: products_business_product_retrieve
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Business -> Products
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveBusinessProduct'
+          description: ''
+    delete:
+      operationId: products_business_product_destroy
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Business -> Products
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/products/business/product/{product_id}/update-status/:
+    patch:
+      operationId: products_business_product_update_status_partial_update
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Business -> Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateBusinessProductBooleanRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateBusinessProductBooleanRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateBusinessProductBooleanRequest'
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateBusinessProductBoolean'
+          description: ''
+  /api/v1/products/business/product/categories/:
+    get:
+      operationId: products_business_product_categories_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Business -> Products
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductCategoryList'
+          description: ''
+    post:
+      operationId: products_business_product_categories_create
+      tags:
+      - Business -> Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
+          description: ''
+  /api/v1/products/business/product/categories/{id}/:
+    get:
+      operationId: products_business_product_categories_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Business -> Products
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
+          description: ''
+    patch:
+      operationId: products_business_product_categories_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Business -> Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProductCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProductCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProductCategoryRequest'
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
+          description: ''
+    delete:
+      operationId: products_business_product_categories_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - Business -> Products
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/products/business/product/image/{product_image_id}/:
+    delete:
+      operationId: products_business_product_image_destroy
+      parameters:
+      - in: path
+        name: product_image_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Business -> Products
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/products/customer/product/{product_id}/:
+    get:
+      operationId: products_customer_product_retrieve
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - Customer -> Products
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveBusinessPublicProduct'
+          description: ''
+  /api/v1/products/customer/products/:
+    get:
+      operationId: products_customer_products_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Customer -> Products
+      security:
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedListBusinessPublicProductList'
+          description: ''
+  /api/v1/profiles/business/profile/:
+    get:
+      operationId: profiles_business_profile_retrieve
+      tags:
+      - Business -> Profiles
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessProfile'
+          description: ''
+    patch:
+      operationId: profiles_business_profile_partial_update
+      tags:
+      - Business -> Profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBusinessProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBusinessProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBusinessProfileRequest'
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessProfile'
+          description: ''
+  /api/v1/profiles/customer/profile/:
+    get:
+      operationId: profiles_customer_profile_retrieve
+      tags:
+      - Customer -> Profiles
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfile'
+          description: ''
+    patch:
+      operationId: profiles_customer_profile_partial_update
+      tags:
+      - Customer -> Profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerProfileRequest'
+      security:
+      - jwtAuth: []
+      - jwt: []
+      - TenantDomainHeader: []
+      - GuestToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfile'
+          description: ''
+components:
+  schemas:
+    AccountResolution:
+      type: object
+      properties:
+        account_name:
+          type: string
+          readOnly: true
+        account_number:
+          type: string
+          maxLength: 20
+      required:
+      - account_name
+      - account_number
+    AccountResolutionRequest:
+      type: object
+      properties:
+        account_number:
+          type: string
+          minLength: 1
+          maxLength: 20
+        bank_code:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 20
+      required:
+      - account_number
+      - bank_code
+    AddBankAccount:
+      type: object
+      properties:
+        detail:
+          allOf:
+          - $ref: '#/components/schemas/BusinessBankAccount'
+          readOnly: true
+      required:
+      - detail
+    AddBankAccountRequest:
+      type: object
+      properties:
+        account_number:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 20
+        bank_code:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 20
+        bank_name:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 200
+        set_default:
+          type: boolean
+          writeOnly: true
+          default: true
+      required:
+      - account_number
+      - bank_code
+      - bank_name
+    AddToCart:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+          readOnly: true
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          readOnly: true
+        item_count:
+          type: integer
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - item_count
+      - items
+      - total
+      - updated_at
+    AddToCartRequest:
+      type: object
+      properties:
+        variant_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        quantity:
+          type: integer
+          minimum: 1
+          writeOnly: true
+          default: 1
+      required:
+      - variant_id
+    AddressTypeEnum:
+      enum:
+      - home
+      - work
+      - other
+      type: string
+      description: |-
+        * `home` - Home
+        * `work` - Work
+        * `other` - Other
+    BankList:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        code:
+          type: string
+      required:
+      - code
+      - id
+      - name
+    BusinessBankAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        account_name:
+          type: string
+          maxLength: 200
+        account_number:
+          type: string
+          maxLength: 20
+        bank_name:
+          type: string
+          maxLength: 200
+        bank_code:
+          type: string
+          maxLength: 20
+        is_default:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - account_name
+      - account_number
+      - bank_code
+      - bank_name
+      - created_at
+      - id
+    BusinessBankAccountRequest:
+      type: object
+      properties:
+        account_name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        account_number:
+          type: string
+          minLength: 1
+          maxLength: 20
+        bank_name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        bank_code:
+          type: string
+          minLength: 1
+          maxLength: 20
+        is_default:
+          type: boolean
+      required:
+      - account_name
+      - account_number
+      - bank_code
+      - bank_name
+    BusinessCancelSubscription:
+      type: object
+      properties:
+        detail:
+          type: string
+          readOnly: true
+          default: Subscription cancelled successfully.
+      required:
+      - detail
+    BusinessCategoryEnum:
+      enum:
+      - fashion
+      - food
+      - home_accessories
+      - electronics
+      - others
+      type: string
+      description: |-
+        * `fashion` - Fashion
+        * `food` - Food
+        * `home_accessories` - Home Accessories
+        * `electronics` - Electronics
+        * `others` - Others
+    BusinessCustomerCreate:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+          default: ''
+          maxLength: 150
+        last_name:
+          type: string
+          default: ''
+          maxLength: 150
+        phone_number:
+          type: string
+          default: ''
+          maxLength: 15
+        country:
+          type: string
+          format: uuid
+      required:
+      - email
+    BusinessCustomerCreateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        first_name:
+          type: string
+          minLength: 1
+          default: ''
+          maxLength: 150
+        last_name:
+          type: string
+          minLength: 1
+          default: ''
+          maxLength: 150
+        phone_number:
+          type: string
+          minLength: 1
+          default: ''
+          maxLength: 15
+        country:
+          type: string
+          format: uuid
+      required:
+      - email
+    BusinessCustomerList:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+        country:
+          type: string
+          format: uuid
+        allow_promo_email:
+          type: boolean
+        order_count:
+          type: integer
+          readOnly: true
+        total_spent:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+      required:
+      - email
+      - first_name
+      - last_name
+      - order_count
+      - total_spent
+      - user_id
+    BusinessProfile:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          readOnly: true
+        first_name:
+          type: string
+        last_name:
+          type: string
+        is_active:
+          type: boolean
+          readOnly: true
+        is_email_verified:
+          type: boolean
+          readOnly: true
+        domain:
+          type: string
+          readOnly: true
+        business_name:
+          type: string
+          maxLength: 150
+        business_phone_number:
+          type: string
+          nullable: true
+          maxLength: 15
+        business_email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        business_category:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/BusinessCategoryEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        owners_full_name:
+          type: string
+          nullable: true
+          maxLength: 150
+        about:
+          type: string
+          nullable: true
+        primary_refund_policy:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PrimaryRefundPolicyEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        primary_refund_policy_conditions:
+          type: string
+          nullable: true
+        order_processing_time:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/OrderProcessingTimeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        business_terms_and_conditions:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        country_code:
+          type: string
+          readOnly: true
+        country_name:
+          type: string
+          readOnly: true
+        state:
+          type: string
+          nullable: true
+          maxLength: 100
+        city:
+          type: string
+          nullable: true
+          maxLength: 100
+        zipcode:
+          type: string
+          nullable: true
+          maxLength: 20
+        instagram_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        x_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        tiktok_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        banner:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - business_name
+      - country_code
+      - country_name
+      - domain
+      - email
+      - first_name
+      - is_active
+      - is_email_verified
+      - last_name
+    BusinessSubscribe:
+      type: object
+      properties:
+        authorization_url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - authorization_url
+    BusinessSubscribeIntervalEnum:
+      enum:
+      - monthly
+      - annually
+      type: string
+      description: |-
+        * `monthly` - monthly
+        * `annually` - annually
+    BusinessSubscribeRequest:
+      type: object
+      properties:
+        plan_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        interval:
+          allOf:
+          - $ref: '#/components/schemas/BusinessSubscribeIntervalEnum'
+          writeOnly: true
+        callback_url:
+          type: string
+          format: uri
+          writeOnly: true
+      required:
+      - interval
+      - plan_id
+    BusinessSubscription:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        plan:
+          allOf:
+          - $ref: '#/components/schemas/BusinessSubscriptionPlan'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/BusinessSubscriptionStatusEnum'
+        current_period_start:
+          type: string
+          format: date-time
+          nullable: true
+        current_period_end:
+          type: string
+          format: date-time
+          nullable: true
+        cancelled_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - plan
+    BusinessSubscriptionPlan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        tier:
+          $ref: '#/components/schemas/TierEnum'
+        interval:
+          $ref: '#/components/schemas/BusinessSubscriptionPlanIntervalEnum'
+        name:
+          type: string
+          maxLength: 100
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+        currency:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount
+      - created_at
+      - currency
+      - id
+      - interval
+      - name
+      - tier
+    BusinessSubscriptionPlanIntervalEnum:
+      enum:
+      - monthly
+      - annually
+      type: string
+      description: |-
+        * `monthly` - Monthly
+        * `annually` - Annually
+    BusinessSubscriptionStatusEnum:
+      enum:
+      - active
+      - non-renewing
+      - cancelled
+      - expired
+      - past_due
+      type: string
+      description: |-
+        * `active` - Active
+        * `non-renewing` - Non-Renewing
+        * `cancelled` - Cancelled
+        * `expired` - Expired
+        * `past_due` - Past Due
+    BusinessWallet:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        currency:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - currency
+      - id
+      - updated_at
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+          readOnly: true
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          readOnly: true
+        item_count:
+          type: integer
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - item_count
+      - items
+      - total
+      - updated_at
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        variant:
+          type: string
+          format: uuid
+        product_name:
+          type: string
+          readOnly: true
+        sku:
+          type: string
+          readOnly: true
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          readOnly: true
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          readOnly: true
+      required:
+      - id
+      - product_name
+      - sku
+      - subtotal
+      - unit_price
+      - variant
+    CartItemRequest:
+      type: object
+      properties:
+        variant:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+      required:
+      - variant
+    Checkout:
+      type: object
+      properties:
+        order_id:
+          type: string
+          readOnly: true
+        authorization_url:
+          type: string
+          readOnly: true
+        reference:
+          type: string
+          readOnly: true
+      required:
+      - authorization_url
+      - order_id
+      - reference
+    CheckoutRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          writeOnly: true
+          minLength: 1
+        first_name:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 100
+        last_name:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 100
+        phone_number:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 20
+        house_number:
+          type: string
+          writeOnly: true
+          minLength: 1
+          default: ''
+        city:
+          type: string
+          writeOnly: true
+          minLength: 1
+        state:
+          type: string
+          writeOnly: true
+          minLength: 1
+        allow_promo_email:
+          type: string
+          writeOnly: true
+          minLength: 1
+        postal_code:
+          type: string
+          writeOnly: true
+          minLength: 1
+        country:
+          type: string
+          writeOnly: true
+          minLength: 1
+        callback_url:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - allow_promo_email
+      - city
+      - country
+      - email
+      - first_name
+      - last_name
+      - phone_number
+      - postal_code
+      - state
+    CustomLoginKey:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    CustomTokenObtainPair:
+      type: object
+      properties:
+        login_success:
+          type: boolean
+          readOnly: true
+        login_keys:
+          allOf:
+          - $ref: '#/components/schemas/CustomLoginKey'
+          readOnly: true
+        profile:
+          type: object
+          additionalProperties:
+            type: string
+          readOnly: true
+        has_subscription:
+          type: boolean
+          readOnly: true
+      required:
+      - has_subscription
+      - login_keys
+      - login_success
+      - profile
+    CustomTokenObtainPairRequest:
+      type: object
+      properties:
+        user_type:
+          allOf:
+          - $ref: '#/components/schemas/UserTypeEnum'
+          writeOnly: true
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password
+      - user_type
+    CustomerProfile:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+        first_name:
+          type: string
+        last_name:
+          type: string
+        is_active:
+          type: boolean
+          readOnly: true
+        is_email_verified:
+          type: boolean
+          readOnly: true
+        country_code:
+          type: string
+          readOnly: true
+        country_name:
+          type: string
+          readOnly: true
+        active_currency:
+          type: string
+          readOnly: true
+        address_type:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AddressTypeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        house_number:
+          type: string
+          nullable: true
+          maxLength: 255
+        street:
+          type: string
+          nullable: true
+          maxLength: 255
+        city:
+          type: string
+          nullable: true
+          maxLength: 255
+        state:
+          type: string
+          nullable: true
+          maxLength: 255
+        postal_code:
+          type: string
+          nullable: true
+          maxLength: 20
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 15
+        allow_promo_email:
+          type: boolean
+      required:
+      - active_currency
+      - country_code
+      - country_name
+      - email
+      - first_name
+      - is_active
+      - is_email_verified
+      - last_name
+      - user_id
+    CustomerSupportedCountry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 2
+        name:
+          type: string
+          maxLength: 100
+        currency:
+          type: string
+          readOnly: true
+      required:
+      - code
+      - currency
+      - id
+      - name
+    CustomerSupportedCurrency:
+      type: object
+      properties:
+        symbol:
+          type: string
+          maxLength: 10
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - name
+      - symbol
+    CustomerTenantInfo:
+      type: object
+      properties:
+        business_name:
+          type: string
+          maxLength: 150
+        business_phone_number:
+          type: string
+          nullable: true
+          maxLength: 15
+        business_email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        business_category:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/BusinessCategoryEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        store_url:
+          type: string
+          readOnly: true
+        temporary_url:
+          type: string
+          readOnly: true
+        about:
+          type: string
+          nullable: true
+        instagram_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        x_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        tiktok_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        address:
+          type: string
+          nullable: true
+        country:
+          type: string
+          readOnly: true
+        state:
+          type: string
+          nullable: true
+          maxLength: 100
+        city:
+          type: string
+          nullable: true
+          maxLength: 100
+        zipcode:
+          type: string
+          nullable: true
+          maxLength: 20
+        currency:
+          type: string
+          readOnly: true
+        primary_refund_policy:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PrimaryRefundPolicyEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        primary_refund_policy_conditions:
+          type: string
+          nullable: true
+        order_processing_time:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/OrderProcessingTimeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        business_terms_and_conditions:
+          type: string
+          nullable: true
+        banner:
+          type: string
+          format: uri
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - business_name
+      - country
+      - currency
+      - store_url
+      - temporary_url
+      - updated_at
+    DomainAvailability:
+      type: object
+      properties:
+        domain:
+          type: string
+        available:
+          type: boolean
+          readOnly: true
+        is_premium:
+          type: boolean
+          readOnly: true
+        premium_price:
+          type: string
+          readOnly: true
+      required:
+      - available
+      - domain
+      - is_premium
+      - premium_price
+    DomainAvailabilityRequest:
+      type: object
+      properties:
+        domain:
+          type: string
+          minLength: 1
+      required:
+      - domain
+    DomainPurchase:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        domain:
+          type: string
+        status:
+          type: string
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+      required:
+      - domain
+      - id
+      - message
+      - status
+    DomainPurchaseRequest:
+      type: object
+      properties:
+        domain:
+          type: string
+          minLength: 1
+      required:
+      - domain
+    EmailSignupBusiness:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        msg:
+          type: string
+          readOnly: true
+      required:
+      - email
+      - msg
+    EmailSignupBusinessRequest:
+      type: object
+      properties:
+        business_name:
+          type: string
+          writeOnly: true
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 128
+      required:
+      - business_name
+      - email
+      - password
+    EmailSignupCustomer:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        msg:
+          type: string
+          readOnly: true
+      required:
+      - email
+      - msg
+    EmailSignupCustomerRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 128
+      required:
+      - email
+      - password
+    ForgotPasswordSendOtp:
+      type: object
+      properties:
+        msg:
+          type: string
+          readOnly: true
+      required:
+      - msg
+    ForgotPasswordSendOtpRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          writeOnly: true
+          minLength: 1
+        user_type:
+          allOf:
+          - $ref: '#/components/schemas/UserTypeEnum'
+          writeOnly: true
+      required:
+      - email
+      - user_type
+    ForgotPasswordUpdatePassword:
+      type: object
+      properties:
+        msg:
+          type: string
+          readOnly: true
+      required:
+      - msg
+    ForgotPasswordUpdatePasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          writeOnly: true
+          minLength: 1
+        user_type:
+          allOf:
+          - $ref: '#/components/schemas/UserTypeEnum'
+          writeOnly: true
+        access_token:
+          type: string
+          writeOnly: true
+          minLength: 1
+        new_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - access_token
+      - email
+      - new_password
+      - user_type
+    ForgotPasswordVerifyOtp:
+      type: object
+      properties:
+        access_token:
+          type: string
+          readOnly: true
+        msg:
+          type: string
+          readOnly: true
+      required:
+      - access_token
+      - msg
+    ForgotPasswordVerifyOtpRequest:
+      type: object
+      properties:
+        otp_code:
+          type: string
+          writeOnly: true
+          minLength: 1
+        email:
+          type: string
+          format: email
+          writeOnly: true
+          minLength: 1
+        user_type:
+          allOf:
+          - $ref: '#/components/schemas/UserTypeEnum'
+          writeOnly: true
+      required:
+      - email
+      - otp_code
+      - user_type
+    InitiateWithdrawal:
+      type: object
+      properties:
+        bank_account_id:
+          type: string
+          format: uuid
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        detail:
+          allOf:
+          - $ref: '#/components/schemas/WithdrawalRequest'
+          readOnly: true
+      required:
+      - amount
+      - bank_account_id
+      - detail
+    InitiateWithdrawalRequest:
+      type: object
+      properties:
+        bank_account_id:
+          type: string
+          format: uuid
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+      required:
+      - amount
+      - bank_account_id
+    KycBusinessUpdate:
+      type: object
+      properties:
+        owners_full_name:
+          type: string
+          maxLength: 150
+        business_name:
+          type: string
+          maxLength: 150
+        business_email:
+          type: string
+          format: email
+          maxLength: 254
+        business_phone_number:
+          type: string
+          maxLength: 15
+        about:
+          type: string
+          nullable: true
+        business_category:
+          $ref: '#/components/schemas/BusinessCategoryEnum'
+        primary_refund_policy:
+          $ref: '#/components/schemas/PrimaryRefundPolicyEnum'
+        primary_refund_policy_conditions:
+          type: string
+        order_processing_time:
+          $ref: '#/components/schemas/OrderProcessingTimeEnum'
+        business_terms_and_conditions:
+          type: string
+          nullable: true
+        address:
+          type: string
+        country:
+          type: string
+          format: uuid
+        state:
+          type: string
+          maxLength: 100
+        city:
+          type: string
+          maxLength: 100
+        zipcode:
+          type: string
+          maxLength: 20
+        instagram_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        x_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        tiktok_handle:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        banner:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - address
+      - business_category
+      - business_email
+      - business_name
+      - business_phone_number
+      - city
+      - country
+      - order_processing_time
+      - owners_full_name
+      - primary_refund_policy
+      - primary_refund_policy_conditions
+      - state
+      - zipcode
+    KycBusinessUpdateRequest:
+      type: object
+      properties:
+        owners_full_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        business_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        business_email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        business_phone_number:
+          type: string
+          minLength: 1
+          maxLength: 15
+        about:
+          type: string
+          nullable: true
+        business_category:
+          $ref: '#/components/schemas/BusinessCategoryEnum'
+        primary_refund_policy:
+          $ref: '#/components/schemas/PrimaryRefundPolicyEnum'
+        primary_refund_policy_conditions:
+          type: string
+          minLength: 1
+        order_processing_time:
+          $ref: '#/components/schemas/OrderProcessingTimeEnum'
+        business_terms_and_conditions:
+          type: string
+          nullable: true
+        address:
+          type: string
+          minLength: 1
+        country:
+          type: string
+          format: uuid
+        state:
+          type: string
+          minLength: 1
+          maxLength: 100
+        city:
+          type: string
+          minLength: 1
+          maxLength: 100
+        zipcode:
+          type: string
+          minLength: 1
+          maxLength: 20
+        instagram_handle:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 200
+        x_handle:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 200
+        tiktok_handle:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 200
+        banner:
+          type: string
+          format: binary
+          nullable: true
+      required:
+      - address
+      - business_category
+      - business_email
+      - business_name
+      - business_phone_number
+      - city
+      - country
+      - order_processing_time
+      - owners_full_name
+      - primary_refund_policy
+      - primary_refund_policy_conditions
+      - state
+      - zipcode
+    ListBusinessPublicProduct:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        product_name:
+          type: string
+          maxLength: 150
+        categories:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        average_rating:
+          type: string
+          readOnly: true
+        review_count:
+          type: string
+          readOnly: true
+        inventory_count:
+          type: string
+          readOnly: true
+        variant_count:
+          type: string
+          readOnly: true
+        lowest_price:
+          type: string
+          readOnly: true
+        first_image:
+          type: string
+          readOnly: true
+        allow_preorder:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - average_rating
+      - categories
+      - created_at
+      - first_image
+      - id
+      - inventory_count
+      - lowest_price
+      - product_name
+      - review_count
+      - updated_at
+      - variant_count
+    ListCreateBusinessProduct:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        product_name:
+          type: string
+          maxLength: 150
+        categories:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        average_rating:
+          type: string
+          readOnly: true
+        review_count:
+          type: string
+          readOnly: true
+        inventory_count:
+          type: string
+          readOnly: true
+        variant_count:
+          type: string
+          readOnly: true
+        lowest_price:
+          type: string
+          readOnly: true
+        allow_preorder:
+          type: boolean
+        is_published:
+          type: boolean
+        first_image:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - average_rating
+      - categories
+      - created_at
+      - first_image
+      - inventory_count
+      - lowest_price
+      - product_name
+      - review_count
+      - updated_at
+      - variant_count
+    ListCreateBusinessProductRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        product_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        product_description:
+          type: string
+          writeOnly: true
+          minLength: 1
+        product_images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductImageRequest'
+          writeOnly: true
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOptionRequest'
+          writeOnly: true
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariantRequest'
+          writeOnly: true
+        category_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        allow_preorder:
+          type: boolean
+        is_published:
+          type: boolean
+      required:
+      - product_description
+      - product_images
+      - product_name
+      - variants
+    ListOrder:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        order_id:
+          type: string
+          maxLength: 32
+        first_name:
+          type: string
+          readOnly: true
+        last_name:
+          type: string
+          readOnly: true
+        payment_status:
+          $ref: '#/components/schemas/PaymentStatusAd3Enum'
+        order_status:
+          $ref: '#/components/schemas/OrderStatusEnum'
+        total_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          readOnly: true
+        amount_paid:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount_paid
+      - created_at
+      - first_name
+      - id
+      - last_name
+      - order_id
+      - total_amount
+    ManualOrderCreate:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualOrderItemInput'
+        payment_status:
+          allOf:
+          - $ref: '#/components/schemas/PaymentStatusAd3Enum'
+          default: unpaid
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+      required:
+      - customer
+      - items
+    ManualOrderCreateRequest:
+      type: object
+      properties:
+        customer:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualOrderItemInputRequest'
+        payment_status:
+          allOf:
+          - $ref: '#/components/schemas/PaymentStatusAd3Enum'
+          default: unpaid
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+      required:
+      - customer
+      - items
+    ManualOrderItemInput:
+      type: object
+      properties:
+        variant:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          minimum: 1
+      required:
+      - quantity
+      - variant
+    ManualOrderItemInputRequest:
+      type: object
+      properties:
+        variant:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          minimum: 1
+      required:
+      - quantity
+      - variant
+    ManualOrderPayment:
+      type: object
+      properties:
+        payment_status:
+          $ref: '#/components/schemas/ManualOrderPaymentPaymentStatusEnum'
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+      required:
+      - payment_status
+    ManualOrderPaymentPaymentStatusEnum:
+      enum:
+      - unpaid
+      - paid
+      type: string
+      description: |-
+        * `unpaid` - unpaid
+        * `paid` - paid
+    ManualOrderPaymentRequest:
+      type: object
+      properties:
+        payment_status:
+          $ref: '#/components/schemas/ManualOrderPaymentPaymentStatusEnum'
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+      required:
+      - payment_status
+    NullEnum:
+      enum:
+      - null
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        order_id:
+          type: string
+          maxLength: 32
+        customer_name:
+          type: string
+          readOnly: true
+        amount_due:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        amount_paid:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        payment_status:
+          $ref: '#/components/schemas/PaymentStatusAd3Enum'
+        order_status:
+          $ref: '#/components/schemas/OrderStatusEnum'
+        order_type:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/OrderTypeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        payment_method:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PaymentMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        sale_source:
+          $ref: '#/components/schemas/SaleSourceEnum'
+        line_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount_due
+      - created_at
+      - customer_name
+      - id
+      - line_items
+      - order_id
+      - updated_at
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        product_name:
+          type: string
+          maxLength: 255
+        variant_sku:
+          type: string
+          maxLength: 100
+        unit_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        subtotal:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+      required:
+      - id
+      - product_name
+      - quantity
+      - subtotal
+      - unit_price
+      - variant_sku
+    OrderProcessingTimeEnum:
+      enum:
+      - same_day
+      - 1_2_days
+      - 2_3_days
+      - 3_5_days
+      - more_than_5_days
+      type: string
+      description: |-
+        * `same_day` - Same Day
+        * `1_2_days` - 1-2 Days
+        * `2_3_days` - 2-3 Days
+        * `3_5_days` - 3-5 Days
+        * `more_than_5_days` - More than 5 Days
+    OrderStatusEnum:
+      enum:
+      - fulfilled
+      - unfulfilled
+      type: string
+      description: |-
+        * `fulfilled` - Fulfilled
+        * `unfulfilled` - Unfulfilled
+    OrderStatusUpdate:
+      type: object
+      properties:
+        order_status:
+          $ref: '#/components/schemas/OrderStatusEnum'
+        payment_status:
+          $ref: '#/components/schemas/PaymentStatusAd3Enum'
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+    OrderTypeEnum:
+      enum:
+      - online
+      - offline
+      type: string
+      description: |-
+        * `online` - Online
+        * `offline` - Offline
+    PaginatedBankListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankList'
+    PaginatedBusinessBankAccountList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessBankAccount'
+    PaginatedBusinessCustomerListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessCustomerList'
+    PaginatedBusinessSubscriptionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessSubscription'
+    PaginatedBusinessSubscriptionPlanList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessSubscriptionPlan'
+    PaginatedCustomerSupportedCountryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerSupportedCountry'
+    PaginatedCustomerSupportedCurrencyList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerSupportedCurrency'
+    PaginatedListBusinessPublicProductList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListBusinessPublicProduct'
+    PaginatedListCreateBusinessProductList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListCreateBusinessProduct'
+    PaginatedListOrderList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListOrder'
+    PaginatedProductCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+    PaginatedWalletTransactionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WalletTransaction'
+    PaginatedWithdrawalRequestList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WithdrawalRequest'
+    PatchedBusinessProfileRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          minLength: 1
+        last_name:
+          type: string
+          minLength: 1
+        business_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        business_phone_number:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 15
+        business_email:
+          type: string
+          format: email
+          nullable: true
+          minLength: 1
+          maxLength: 254
+        business_category:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/BusinessCategoryEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        owners_full_name:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 150
+        about:
+          type: string
+          nullable: true
+        primary_refund_policy:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PrimaryRefundPolicyEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        primary_refund_policy_conditions:
+          type: string
+          nullable: true
+        order_processing_time:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/OrderProcessingTimeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        business_terms_and_conditions:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        state:
+          type: string
+          nullable: true
+          maxLength: 100
+        city:
+          type: string
+          nullable: true
+          maxLength: 100
+        zipcode:
+          type: string
+          nullable: true
+          maxLength: 20
+        instagram_handle:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 200
+        x_handle:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 200
+        tiktok_handle:
+          type: string
+          format: uri
+          nullable: true
+          minLength: 1
+          maxLength: 200
+        banner:
+          type: string
+          format: binary
+          nullable: true
+    PatchedCustomerProfileRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          minLength: 1
+        last_name:
+          type: string
+          minLength: 1
+        country:
+          type: string
+          format: uuid
+          writeOnly: true
+        currency:
+          type: string
+          minLength: 1
+          writeOnly: true
+          nullable: true
+        address_type:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AddressTypeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        house_number:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 255
+        street:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 255
+        city:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 255
+        state:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 255
+        postal_code:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 20
+        phone_number:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 15
+        allow_promo_email:
+          type: boolean
+    PatchedOrderStatusUpdateRequest:
+      type: object
+      properties:
+        order_status:
+          $ref: '#/components/schemas/OrderStatusEnum'
+        payment_status:
+          $ref: '#/components/schemas/PaymentStatusAd3Enum'
+        payment_method:
+          $ref: '#/components/schemas/PaymentMethodEnum'
+    PatchedProductCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        image:
+          type: string
+          format: binary
+    PatchedUpdateBusinessProductBooleanRequest:
+      type: object
+      properties:
+        is_published:
+          type: boolean
+        allow_preorder:
+          type: boolean
+    PatchedUpdateCartItemRequest:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          minimum: 1
+    PaymentMethodEnum:
+      enum:
+      - card
+      - bank_transfer
+      - cash_on_delivery
+      type: string
+      description: |-
+        * `card` - Card
+        * `bank_transfer` - Bank Transfer
+        * `cash_on_delivery` - Cash on Delivery
+    PaymentStatusAd3Enum:
+      enum:
+      - unpaid
+      - paid
+      - partially_paid
+      - failed
+      - refunded
+      type: string
+      description: |-
+        * `unpaid` - Unpaid
+        * `paid` - Paid
+        * `partially_paid` - Partially Paid
+        * `failed` - Failed
+        * `refunded` - Refunded
+    PrimaryRefundPolicyEnum:
+      enum:
+      - no_refund
+      - full_or_partial_refund
+      type: string
+      description: |-
+        * `no_refund` - No Refund
+        * `full_or_partial_refund` - Full/Partial Refund
+    ProductCategory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        image:
+          type: string
+          format: uri
+        product_count:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - image
+      - name
+      - product_count
+    ProductCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        image:
+          type: string
+          format: binary
+      required:
+      - image
+      - name
+    ProductImage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        image:
+          type: string
+          format: uri
+      required:
+      - id
+      - image
+    ProductImageRequest:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+      required:
+      - image
+    ProductOption:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOptionValue'
+      required:
+      - name
+      - values
+    ProductOptionRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOptionValueRequest'
+      required:
+      - name
+      - values
+    ProductOptionValue:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - name
+    ProductOptionValueRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required:
+      - name
+    ProductVariant:
+      type: object
+      properties:
+        sku:
+          type: string
+          maxLength: 50
+        product_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        discount_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        cost_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          nullable: true
+        quantity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        option_values:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOptionValue'
+          readOnly: true
+      required:
+      - discount_price
+      - option_values
+      - product_price
+    ProductVariantRequest:
+      type: object
+      properties:
+        sku:
+          type: string
+          minLength: 1
+          maxLength: 50
+        product_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        discount_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        cost_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+          nullable: true
+        quantity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+      required:
+      - discount_price
+      - product_price
+    ReasonEnum:
+      enum:
+      - order_settlement
+      - subscription_fee
+      - withdrawal
+      - refund
+      - adjustment
+      type: string
+      description: |-
+        * `order_settlement` - Order Settlement
+        * `subscription_fee` - Subscription Fee
+        * `withdrawal` - Withdrawal
+        * `refund` - Refund
+        * `adjustment` - Adjustment
+    RetrieveBusinessProduct:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        product_name:
+          type: string
+          maxLength: 150
+        product_description:
+          type: string
+          nullable: true
+        product_images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductImage'
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOption'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariant'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+        allow_preorder:
+          type: boolean
+        is_published:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - categories
+      - created_at
+      - id
+      - options
+      - product_images
+      - product_name
+      - updated_at
+      - variants
+    RetrieveBusinessPublicProduct:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        product_name:
+          type: string
+          maxLength: 150
+        product_description:
+          type: string
+          nullable: true
+        product_images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductImage'
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOption'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariant'
+        categories:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        average_rating:
+          type: string
+          readOnly: true
+        review_count:
+          type: string
+          readOnly: true
+        inventory_count:
+          type: string
+          readOnly: true
+        variant_count:
+          type: string
+          readOnly: true
+        allow_preorder:
+          type: boolean
+        is_published:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - average_rating
+      - categories
+      - created_at
+      - id
+      - inventory_count
+      - options
+      - product_images
+      - product_name
+      - review_count
+      - updated_at
+      - variant_count
+      - variants
+    SaleSourceEnum:
+      enum:
+      - website
+      - physical_sale
+      - tiktok
+      - facebook
+      - instagram
+      - whatsapp
+      - x
+      - jumia
+      - other
+      type: string
+      description: |-
+        * `website` - Website
+        * `physical_sale` - Physical Sale
+        * `tiktok` - TikTok
+        * `facebook` - Facebook
+        * `instagram` - Instagram
+        * `whatsapp` - WhatsApp
+        * `x` - X
+        * `jumia` - Jumia
+        * `other` - Other
+    StatusC8eEnum:
+      enum:
+      - pending
+      - processing
+      - success
+      - failed
+      - reversed
+      type: string
+      description: |-
+        * `pending` - Pending
+        * `processing` - Processing
+        * `success` - Success
+        * `failed` - Failed
+        * `reversed` - Reversed
+    TierEnum:
+      enum:
+      - free
+      - starter
+      - growth
+      - pro
+      type: string
+      description: |-
+        * `free` - Free
+        * `starter` - Starter
+        * `growth` - Growth
+        * `pro` - Pro
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+      required:
+      - access
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - refresh
+    TypeEnum:
+      enum:
+      - credit
+      - debit
+      type: string
+      description: |-
+        * `credit` - Credit
+        * `debit` - Debit
+    UpdateBusinessProductBoolean:
+      type: object
+      properties:
+        is_published:
+          type: boolean
+        allow_preorder:
+          type: boolean
+    UpdateCartItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        quantity:
+          type: integer
+          minimum: 1
+      required:
+      - id
+      - quantity
+    UserTypeEnum:
+      enum:
+      - admin
+      - business_super_admin
+      - customer
+      - guest_customer
+      type: string
+      description: |-
+        * `admin` - Admin
+        * `business_super_admin` - Business Super Admin
+        * `customer` - Customer
+        * `guest_customer` - Guest Customer
+    VerifyEmailSignup:
+      type: object
+      properties:
+        login_keys:
+          allOf:
+          - $ref: '#/components/schemas/CustomLoginKey'
+          readOnly: true
+        profile:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        msg:
+          type: string
+          readOnly: true
+      required:
+      - login_keys
+      - msg
+      - profile
+    VerifyEmailSignupCustomer:
+      type: object
+      properties:
+        login_keys:
+          allOf:
+          - $ref: '#/components/schemas/CustomLoginKey'
+          readOnly: true
+        profile:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        msg:
+          type: string
+          readOnly: true
+      required:
+      - login_keys
+      - msg
+      - profile
+    VerifyEmailSignupCustomerRequest:
+      type: object
+      properties:
+        otp_code:
+          type: string
+          writeOnly: true
+          minLength: 1
+        email:
+          type: string
+          format: email
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - otp_code
+    VerifyEmailSignupRequest:
+      type: object
+      properties:
+        otp_code:
+          type: string
+          writeOnly: true
+          minLength: 1
+        email:
+          type: string
+          format: email
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - otp_code
+    WalletTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        reason:
+          $ref: '#/components/schemas/ReasonEnum'
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        balance_before:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        balance_after:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        reference:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        order_id:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount
+      - balance_after
+      - balance_before
+      - created_at
+      - id
+      - reason
+      - reference
+      - type
+    WithdrawalRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        bank_account:
+          allOf:
+          - $ref: '#/components/schemas/BusinessBankAccount'
+          readOnly: true
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        status:
+          $ref: '#/components/schemas/StatusC8eEnum'
+        reference:
+          type: string
+          maxLength: 100
+        failure_reason:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount
+      - bank_account
+      - created_at
+      - id
+      - reference
+    WithdrawalRequestRequest:
+      type: object
+      properties:
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,4})?$
+        status:
+          $ref: '#/components/schemas/StatusC8eEnum'
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 100
+        failure_reason:
+          type: string
+      required:
+      - amount
+      - reference
+  securitySchemes:
+    GuestToken:
+      type: apiKey
+      in: header
+      name: X-Guest-Token
+      description: The token for guest users.
+    TenantDomainHeader:
+      type: apiKey
+      in: header
+      name: X-Tenant-Domain
+      description: The domain or subdomain of the business (e.g., mybusiness1.com).
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

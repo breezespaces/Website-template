@@ -16,6 +16,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useRouter();
   const { data: tenantInfo } = useGetTenantInfo();
+  console.log({ tenantInfo });
 
   const { data, isLoading } = useGetProducts({
     offset: (currentPage - 1) * 10,
